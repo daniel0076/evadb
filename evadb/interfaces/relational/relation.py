@@ -34,6 +34,7 @@ from evadb.parser.table_ref import JoinNode, TableRef
 from evadb.parser.types import JoinType
 from evadb.parser.utils import parse_sql_orderby_expr
 from evadb.server.command_handler import execute_statement
+from evadb.utils.stopwatch import StopWatch
 
 
 class EvaDBQuery:

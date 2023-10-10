@@ -46,6 +46,7 @@ from evadb.server.command_handler import execute_statement
 from evadb.utils.generic_utils import find_nearest_word, is_ray_enabled_and_installed
 from evadb.utils.job_scheduler import JobScheduler
 from evadb.utils.logging_manager import logger
+from evadb.utils.stopwatch import StopWatch
 
 
 class EvaDBConnection:
@@ -464,7 +465,8 @@ class EvaDBCursor(object):
             1     3     4
             2     5     6
         """
-        stmt = parse_query(sql_query)
+        with StopWatch(f"{__name__}.parse_query"):
+            stmt = parse_query(sql_query)
         return EvaDBQuery(self._evadb, stmt)
 
     def show(self, object_type: str, **kwargs) -> EvaDBQuery:

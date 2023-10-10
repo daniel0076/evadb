@@ -28,6 +28,7 @@ from evadb.third_party.databases.interface import get_database_handler
 from evadb.third_party.vector_stores.types import VectorIndexQuery
 from evadb.third_party.vector_stores.utils import VectorStoreFactory
 from evadb.utils.logging_manager import logger
+from evadb.utils.stopwatch import StopWatch
 
 
 # Helper function for getting row_num column alias.
