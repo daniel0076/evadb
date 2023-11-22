@@ -28,7 +28,6 @@ from evadb.third_party.databases.interface import get_database_handler
 from evadb.third_party.vector_stores.types import VectorIndexQuery
 from evadb.third_party.vector_stores.utils import VectorStoreFactory
 from evadb.utils.logging_manager import logger
-from evadb.utils.stopwatch import StopWatch
 
 
 # Helper function for getting row_num column alias.
@@ -138,9 +137,7 @@ class VectorIndexScanExecutor(AbstractExecutor):
             if not batch.frames[row_num_col_name].isin(row_num_df["row_num_np"]).any():
                 continue
 
-            for index, row in batch.frames.iterrows():
-                row_dict = row.to_dict()
-                res_data_list.append(row_dict)
+            res_data_list = batch.frames.apply(lambda row: row.to_dict(), axis=1).tolist()
 
         result_df = pd.DataFrame(res_data_list)
 

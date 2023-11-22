@@ -56,14 +56,13 @@ class CSVReader(AbstractReader):
         col_map = {col.name: col for col in self._column_list}
         for chunk in pd.read_csv(self.file_url, chunksize=512, usecols=col_list_names):
             # apply the required conversions
-            for col in chunk.columns:
-                # TODO: Is there a better way to do this?
-                if (
-                    isinstance(chunk[col].iloc[0], str)
-                    and col_map[col].col_object.type.name == "NDARRAY"
-                ):
-                    # convert the string to a numpy array
-                    chunk[col] = chunk[col].apply(convert_csv_string_to_ndarray)
+            str_cols = [
+            col
+            for col in chunk.columns
+            if isinstance(chunk[col].iloc[0], str)
+            and col_map[col].col_object.type.name == "NDARRAY"
+            ]
+            chunk[str_cols] = chunk[str_cols].applymap(convert_csv_string_to_ndarray)
 
             # yield the chunk
             for chunk_index, chunk_row in chunk.iterrows():
